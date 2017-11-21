@@ -48,7 +48,7 @@ public class Main {
 			}
 		}
 		System.out.println("Aチームの合計得点は、"+teamAScore+"です");
-		System.out.println("Aチームの合計得点は、"+teamBScore+"です");
+		System.out.println("Bチームの合計得点は、"+teamBScore+"です");
 	}
 
 }
