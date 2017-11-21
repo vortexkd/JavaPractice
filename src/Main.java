@@ -10,10 +10,11 @@ public class Main {
 			//myData.printData();
 			myData.countCities();
 			myData.printCities();
+			myData.exportData();
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
-		}
+		} 
 	}
 
 }
