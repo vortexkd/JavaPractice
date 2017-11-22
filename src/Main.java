@@ -9,7 +9,8 @@ public class Main {
 		//new TeamScore();
 		//new RunFileExercise();
 		CsvReader csvReader = new CsvReader(System.getProperty("user.dir")+"/files/csvPractice01.csv");
-		GradeCompare grades = new GradeCompare(csvReader.getData());
+		GradeCompare2 grades = new GradeCompare2(csvReader.getData());
+		
 		System.out.println("1.数学の最高得点");
 		System.out.println(grades.findTopScoreInSubject("数学"));
 		System.out.println("\n2.各科目の最高得点者の氏名と得点\n");
@@ -19,21 +20,21 @@ public class Main {
 		System.out.println("\n4. 人別の全科目合計点・全科目平均点・最高点だった教科と点数・最低点だった教科と点数\n");
 		printScoreDetails(grades);
 		System.out.println("\n5. 成績の合計点順のランキング\n");
-		printRankings(grades);
+		printRankings(grades); 
 	}
 	
-	public static void topScorers(GradeCompare grades) {
+	public static void topScorers(GradeCompare2 grades) {
 		//findTopSubjectScorer
 		for(String subject :grades.getSubjects()) {
 			System.out.println(subject+"の最高得点者は、"+grades.findTopSubjectScorer(subject)+"、"+grades.findTopScoreInSubject(subject)+"点です。");//全部同じ人でした。。。。
 		}
 	}
-	public static void printSubjectAverages(GradeCompare grades) {
+	public static void printSubjectAverages(GradeCompare2 grades) {
 		for (String subject:grades.getSubjects()) {
 			System.out.println(subject+"の平均点数（小数点第二位まで）は"+grades.getAverageWithoutLowest(subject)+"点です。");
 		}
 	}
-	public static void printScoreDetails(GradeCompare grades) {
+	public static void printScoreDetails(GradeCompare2 grades) {
 		DecimalFormat df = new DecimalFormat("#.00");
 		String toPrint = "";
 		for(String name:grades.getNames()) {
@@ -54,7 +55,7 @@ public class Main {
 		}
 		return result;
 	}
-	public static void printRankings(GradeCompare grades) {
+	public static void printRankings(GradeCompare2 grades) {
 		ArrayList<Student> rankings = grades.getOrderedList();
 		for(int i = 0; i<rankings.size();i++) {
 			System.out.println((i+1)+"位： "+rankings.get(i).getName()+"さん "+rankings.get(i).totalMarks()+"点");

@@ -5,7 +5,7 @@ import java.util.Collections;
 public class GradeCompare {
 
 	private ArrayList<Integer[]> data = new ArrayList<>(); // has scores
-	private ArrayList<String> subjects; // has subjects
+	//private ArrayList<String> subjects; // has subjects
 	private ArrayList<String> names = new ArrayList<>(); //has names.
 	
 	private ArrayList<Student> students = new ArrayList<>();
@@ -13,10 +13,14 @@ public class GradeCompare {
 	public GradeCompare(ArrayList<String[]> d) {
 		for(int i=0;i<d.size();i++) {
 			if(i==0) {
-				this.subjects = new ArrayList<>(
+//				this.subjects = new ArrayList<>(
+//						Arrays.asList(
+//								Arrays.copyOfRange(d.get(i),1,d.get(i).length)//removes title of first column.
+//								));//remove
+				Student.setSubjects(new ArrayList<String>(
 						Arrays.asList(
 								Arrays.copyOfRange(d.get(i),1,d.get(i).length)//removes title of first column.
-								));
+								)));
 			}
 			else {
 				this.names.add(d.get(i)[0]);
@@ -24,7 +28,7 @@ public class GradeCompare {
 				for(int j = 1;j<d.get(i).length;j++) {
 					temp[j-1] = Integer.parseInt(d.get(i)[j]);
 				}
-				this.data.add(temp);
+				this.data.add(temp);//remove
 				students.add(new Student(d.get(i)[0],temp));
 				
 			}
@@ -36,7 +40,7 @@ public class GradeCompare {
 	}
 	
 	public ArrayList<String> getSubjects(){
-		return this.subjects;
+		return Student.getSubjects();
 	}
 	public String findTopSubjectScorer(String subject) {//ある科目の最高点数の持ち主の名前を見つける
 		int column = getSubectColumn(subject);
@@ -47,6 +51,7 @@ public class GradeCompare {
 	public Integer findTopScoreInSubject(String subject) {//ある科目の最高点数を見つける
 		int column = getSubectColumn(subject);
 		int row = getHighestRowInColumn(column);
+		Student student = getStudentFromName(subject);
 		return this.data.get(row)[column];
 	}
 	
@@ -78,7 +83,7 @@ public class GradeCompare {
 		for(Integer score:this.data.get(row)) {
 			average += score;
 		}
-		return (average / ((double) this.subjects.size()));
+		return (average / ((double) Student.getSubjects().size()));
 	}
 	public int studentHighScore(String name) {
 		int row =  getNameRow(name);
@@ -105,9 +110,9 @@ public class GradeCompare {
 	public ArrayList<String> getSubjectsFromScore(String name,int score) {
 		int row =  getNameRow(name);
 		ArrayList<String> result = new ArrayList<String>();
-		for(int i=0;i<this.subjects.size();i++) {
+		for(int i=0;i<Student.getSubjects().size();i++) {
 			if(this.data.get(row)[i]==score) {
-				result.add(this.subjects.get(i));
+				result.add(Student.getSubjects().get(i));
 			}
 		}
 		return result;
@@ -117,9 +122,16 @@ public class GradeCompare {
 		Collections.sort(this.students);
 		return this.students;
 	}
-	
+	private Student getStudentFromName(String name) {
+		for(Student student:this.students) {
+			if(student.getName()==name) {
+				return student;
+			}
+		}
+		return null;
+	}
 	private int getSubectColumn(String subject) {//科目の配列順番号を返す
-		return this.subjects.indexOf(subject);
+		return Student.getSubjects().indexOf(subject);
 	}
 	private int getNameRow(String name) {
 		return this.names.indexOf(name);
